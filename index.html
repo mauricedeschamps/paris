@@ -6,12 +6,10 @@
   <meta name="theme-color" content="#121212">
   <title>Paris Travel Guide</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/icon-192x192.jpg" type="image/jpg">
-  <link rel="apple-touch-icon" href="icons/icon-192x192.jpg">
+  <link rel="icon" href="icons/icon-192x192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
   <style>
-    /* スタイルは変更なし（前回と同じ） */
     :root {
-      /* ダークモードデフォルト */
       --bg-primary: #121212;
       --bg-secondary: #1e1e1e;
       --text-primary: #e0e0e0;
@@ -335,13 +333,179 @@
   </footer>
 
   <script>
-    // 観光地データ（前回と同じ）
+    // 修正した観光地データ
     const attractions = {
       en: [
-        // ...（前回と同じデータ）...
+        {
+          id: 1,
+          name: "Eiffel Tower",
+          description: "The iconic iron lattice tower on the Champ de Mars, named after engineer Gustave Eiffel. Standing at 330 meters tall, it's one of the most recognizable structures in the world and offers breathtaking views of Paris.",
+          image: "eiffel.jpg",
+          link: "https://www.toureiffel.paris/en"
+        },
+        {
+          id: 2,
+          name: "Louvre Museum",
+          description: "The world's largest art museum and a historic monument. Home to the Mona Lisa, Venus de Milo, and over 35,000 works of art spanning from antiquity to the 21st century.",
+          image: "louvre.jpg",
+          link: "https://www.louvre.fr/en"
+        },
+        {
+          id: 3,
+          name: "Notre-Dame Cathedral",
+          description: "Medieval Catholic cathedral on the Île de la Cité. Known for its French Gothic architecture, historic significance, and as the setting for Victor Hugo's novel.",
+          image: "notredame.jpg",
+          link: "https://www.notredamedeparis.fr/en/"
+        },
+        {
+          id: 4,
+          name: "Montmartre & Sacré-Cœur",
+          description: "Historic artistic neighborhood crowned by the stunning white-domed Basilica of the Sacred Heart. Offers panoramic views of Paris and retains its village-like charm.",
+          image: "montmartre.jpg",
+          link: "https://www.sacre-coeur-montmartre.com/english/"
+        },
+        {
+          id: 5,
+          name: "Musée d'Orsay",
+          description: "Housed in a former railway station, this museum contains French art from 1848 to 1914, including the largest collection of impressionist and post-impressionist masterpieces.",
+          image: "orsay.jpg",
+          link: "https://www.musee-orsay.fr/en"
+        },
+        {
+          id: 6,
+          name: "Champs-Élysées",
+          description: "Famous avenue stretching 1.9 km from Place de la Concorde to Arc de Triomphe. Lined with cafes, luxury shops, theaters, and the annual finish line of the Tour de France.",
+          image: "champs.jpg",
+          link: "https://www.champselysees-paris.com/"
+        },
+        {
+          id: 7,
+          name: "Palace of Versailles",
+          description: "Former royal residence built by Louis XIV, featuring the Hall of Mirrors, extensive gardens, and the Grand Trianon. A UNESCO World Heritage site located just outside Paris.",
+          image: "versailles.jpg",
+          link: "https://en.chateauversailles.fr/"
+        },
+        {
+          id: 8,
+          name: "Sainte-Chapelle",
+          description: "Gothic chapel on the Île de la Cité, renowned for its stunning stained glass windows that depict 1,113 biblical scenes in vibrant colors.",
+          image: "sainte_chapelle.jpg",
+          link: "https://www.sainte-chapelle.fr/en/"
+        },
+        {
+          id: 9,
+          name: "Luxembourg Gardens",
+          description: "60-acre park created in 1612 featuring tree-lined promenades, tennis courts, flowerbeds, model sailboats on the Grand Bassin, and the Luxembourg Palace.",
+          image: "luxembourg.jpg",
+          link: "https://en.parisinfo.com/paris-museum-monument/71371/Jardin-du-Luxembourg"
+        },
+        {
+          id: 10,
+          name: "Moulin Rouge",
+          description: "World-famous cabaret known as the birthplace of the modern form of can-can dance. Established in 1889 with its iconic red windmill on its roof.",
+          image: "moulinrouge.jpg",
+          link: "https://www.moulinrouge.fr/"
+        },
+        {
+          id: 11,
+          name: "Père Lachaise Cemetery",
+          description: "Largest cemetery in Paris and one of the world's most visited, with graves of Jim Morrison, Oscar Wilde, Édith Piaf, and many other notable figures.",
+          image: "perelachaise.jpg",
+          link: "https://www.pere-lachaise.com/"
+        },
+        {
+          id: 12,
+          name: "Seine River Cruise",
+          description: "Experience Paris from the water with a cruise along the Seine River, passing by major landmarks beautifully illuminated at night.",
+          image: "seine.jpg",
+          link: "https://www.bateauxparisiens.com/en.html"
+        }
       ],
       fr: [
-        // ...（前回と同じデータ）...
+        {
+          id: 1,
+          name: "Tour Eiffel",
+          description: "L'emblématique tour en treillis de fer sur le Champ de Mars, nommée d'après l'ingénieur Gustave Eiffel. Culminant à 330 mètres, c'est l'une des structures les plus reconnaissables au monde et offre une vue imprenable sur Paris.",
+          image: "eiffel.jpg",
+          link: "https://www.toureiffel.paris/fr"
+        },
+        {
+          id: 2,
+          name: "Musée du Louvre",
+          description: "Le plus grand musée d'art du monde et un monument historique. Abritant la Joconde, la Vénus de Milo et plus de 35 000 œuvres d'art de l'Antiquité au XXIe siècle.",
+          image: "louvre.jpg",
+          link: "https://www.louvre.fr/fr"
+        },
+        {
+          id: 3,
+          name: "Cathédrale Notre-Dame",
+          description: "Cathédrale catholique médiévale située sur l'Île de la Cité. Connue pour son architecture gothique française, son importance historique et comme cadre du roman de Victor Hugo.",
+          image: "notredame.jpg",
+          link: "https://www.notredamedeparis.fr/"
+        },
+        {
+          id: 4,
+          name: "Montmartre & Sacré-Cœur",
+          description: "Quartier artistique historique dominé par la magnifique basilique du Sacré-Cœur à dôme blanc. Offre une vue panoramique sur Paris et conserve son charme villageois.",
+          image: "montmartre.jpg",
+          link: "https://www.sacre-coeur-montmartre.com/"
+        },
+        {
+          id: 5,
+          name: "Musée d'Orsay",
+          description: "Installé dans une ancienne gare ferroviaire, ce musée contient l'art français de 1848 à 1914, dont la plus grande collection de chefs-d'œuvre impressionnistes et post-impressionnistes.",
+          image: "orsay.jpg",
+          link: "https://www.musee-orsay.fr/fr"
+        },
+        {
+          id: 6,
+          name: "Champs-Élysées",
+          description: "Avenue célèbre s'étendant sur 1,9 km de la Place de la Concorde à l'Arc de Triomphe. Bordée de cafés, boutiques de luxe, théâtres et ligne d'arrivée annuelle du Tour de France.",
+          image: "champs.jpg",
+          link: "https://www.champselysees-paris.com/"
+        },
+        {
+          id: 7,
+          name: "Château de Versailles",
+          description: "Ancienne résidence royale construite par Louis XIV, avec la Galerie des Glaces, les jardins extensifs et le Grand Trianon. Site classé au patrimoine mondial de l'UNESCO situé près de Paris.",
+          image: "versailles.jpg",
+          link: "https://www.chateauversailles.fr/"
+        },
+        {
+          id: 8,
+          name: "Sainte-Chapelle",
+          description: "Chapelle gothique sur l'Île de la Cité, réputée pour ses magnifiques vitraux représentant 1113 scènes bibliques aux couleurs vibrantes.",
+          image: "sainte_chapelle.jpg",
+          link: "https://www.sainte-chapelle.fr/fr/"
+        },
+        {
+          id: 9,
+          name: "Jardin du Luxembourg",
+          description: "Parc de 24 hectares créé en 1612 avec des promenades ombragées, des courts de tennis, des parterres de fleurs, des voiliers modèles sur le Grand Bassin et le Palais du Luxembourg.",
+          image: "luxembourg.jpg",
+          link: "https://www.senat.fr/visite/jardin/index.html"
+        },
+        {
+          id: 10,
+          name: "Moulin Rouge",
+          description: "Célèbre cabaret mondialement connu comme le berceau du cancan moderne. Établi en 1889 avec son emblématique moulin à vent rouge sur son toit.",
+          image: "moulinrouge.jpg",
+          link: "https://www.moulinrouge.fr/"
+        },
+        {
+          id: 11,
+          name: "Cimetière du Père-Lachaise",
+          description: "Plus grand cimetière de Paris et l'un des plus visités au monde, avec les tombes de Jim Morrison, Oscar Wilde, Édith Piaf et de nombreuses autres personnalités notables.",
+          image: "perelachaise.jpg",
+          link: "https://www.pere-lachaise.com/"
+        },
+        {
+          id: 12,
+          name: "Croisière sur la Seine",
+          description: "Découvrez Paris depuis l'eau avec une croisière sur la Seine, passant devant les principaux monuments magnifiquement illuminés la nuit.",
+          image: "seine.jpg",
+          link: "https://www.bateauxparisiens.com/fr.html"
+        }
       ]
     };
 
@@ -367,23 +531,58 @@
     let isDarkMode = true;
     let currentLanguage = 'en';
 
-    // テーマ切り替え
-    themeToggle.addEventListener('click', () => {
-      isDarkMode = !isDarkMode;
-      body.classList.toggle('light-mode', !isDarkMode);
-      themeToggle.innerHTML = isDarkMode ? 
-        '<span>🌙</span> Dark Mode' : 
-        '<span>☀️</span> Light Mode';
-    });
+    // 初期化処理
+    function initApp() {
+      renderAttractions();
+      setupEventListeners();
+      registerServiceWorker();
+    }
 
-    // 言語切り替え
-    languageToggle.addEventListener('click', () => {
-      currentLanguage = currentLanguage === 'en' ? 'fr' : 'en';
-      updateLanguage();
-      languageToggle.innerHTML = currentLanguage === 'en' ? 
-        '<span>🇫🇷</span> French' : 
-        '<span>🇬🇧</span> English';
-    });
+    // イベントリスナー設定
+    function setupEventListeners() {
+      // テーマ切り替え
+      themeToggle.addEventListener('click', () => {
+        isDarkMode = !isDarkMode;
+        body.classList.toggle('light-mode', !isDarkMode);
+        themeToggle.innerHTML = isDarkMode ? 
+          '<span>🌙</span> Dark Mode' : 
+          '<span>☀️</span> Light Mode';
+      });
+
+      // 言語切り替え
+      languageToggle.addEventListener('click', () => {
+        currentLanguage = currentLanguage === 'en' ? 'fr' : 'en';
+        updateLanguage();
+        languageToggle.innerHTML = currentLanguage === 'en' ? 
+          '<span>🇫🇷</span> French' : 
+          '<span>🇬🇧</span> English';
+      });
+
+      // モーダル閉じる
+      closeModal.addEventListener('click', () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      });
+
+      // モーダル外側クリックで閉じる
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      });
+
+      // PWAインストール
+      installButton.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`User response: ${outcome}`);
+          deferredPrompt = null;
+          installButton.style.display = 'none';
+        }
+      });
+    }
 
     // 言語更新
     function updateLanguage() {
@@ -407,7 +606,9 @@
     // 観光地レンダリング
     function renderAttractions() {
       attractionsContainer.innerHTML = '';
-      attractions[currentLanguage].forEach(attraction => {
+      const attractionsList = attractions[currentLanguage];
+      
+      attractionsList.forEach(attraction => {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
@@ -415,7 +616,7 @@
           <div class="card-content">
             <h3>${attraction.name}</h3>
             <p>${attraction.description}</p>
-            <div class="read-more">Read more →</div>
+            <div class="read-more">${currentLanguage === 'en' ? 'Read more →' : 'Lire la suite →'}</div>
           </div>
         `;
         card.addEventListener('click', () => openModal(attraction));
@@ -435,64 +636,34 @@
       document.body.style.overflow = 'hidden';
     }
 
-    // モーダル閉じる
-    closeModal.addEventListener('click', () => {
-      modal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    });
-
-    // 初期レンダリング
-    renderAttractions();
+    // Service Worker登録
+    function registerServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('Service Worker registered:', registration);
+          })
+          .catch(error => {
+            console.log('Service Worker registration failed:', error);
+          });
+      }
+    }
 
     // ===== PWAインストール機能 =====
     window.addEventListener('beforeinstallprompt', (e) => {
-      // デフォルトのプロンプトを防止
       e.preventDefault();
-      // イベントを後でトリガーするために保持
       deferredPrompt = e;
-      // インストールボタンを表示
       installButton.style.display = 'block';
     });
 
-    installButton.addEventListener('click', async () => {
-      if (deferredPrompt) {
-        // インストールプロンプトを表示
-        deferredPrompt.prompt();
-        // ユーザーの選択を待つ
-        const { outcome } = await deferredPrompt.userChoice;
-        // 結果を記録
-        console.log(`User response to the install prompt: ${outcome}`);
-        // プロンプトをクリア
-        deferredPrompt = null;
-        // インストールボタンを非表示
-        installButton.style.display = 'none';
-      }
-    });
-
-    // アプリがインストールされたらボタンを非表示
     window.addEventListener('appinstalled', () => {
       console.log('PWA was installed');
       installButton.style.display = 'none';
       deferredPrompt = null;
     });
 
-    // ===== Service Worker登録 =====
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then(registration => {
-            console.log('Service Worker registered:', registration);
-            
-            // 定期的にService Workerの更新をチェック
-            setInterval(() => {
-              registration.update();
-            }, 60 * 60 * 1000); // 毎時チェック
-          })
-          .catch(error => {
-            console.log('Service Worker registration failed:', error);
-          });
-      });
-    }
+    // アプリ初期化
+    document.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
