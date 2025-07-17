@@ -6,10 +6,9 @@
   <meta name="theme-color" content="#121212">
   <title>Paris Travel Guide</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/icon-192x192.jpg" type="image/jpg">
-  <link rel="apple-touch-icon" href="icons/icon-192x192.jpg">
+  <link rel="icon" href="icons/icon-192x192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
   <style>
-    /* 基本スタイルは変更なし */
     :root {
       --bg-primary: #121212;
       --bg-secondary: #1e1e1e;
@@ -45,69 +44,6 @@
       line-height: 1.6;
     }
 
-    /* インストールバナー */
-    .install-banner {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--bg-secondary);
-      border-radius: 12px;
-      padding: 15px 25px;
-      box-shadow: var(--shadow);
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.5s, transform 0.5s;
-      max-width: 90%;
-    }
-    
-    .install-banner.visible {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-    
-    .install-banner.hidden {
-      opacity: 0;
-      transform: translateX(-50%) translateY(100px);
-    }
-    
-    .banner-text {
-      font-size: 1rem;
-    }
-    
-    .banner-btn {
-      background: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    
-    .banner-close {
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-size: 1.2rem;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-    }
-    
-    .banner-close:hover {
-      background: rgba(255,255,255,0.1);
-    }
-
-    /* ヘッダー・メインコンテンツ・フッタースタイルは変更なし */
     header {
       background-color: var(--bg-secondary);
       padding: 1.5rem;
@@ -314,6 +250,22 @@
       margin-top: 5px;
     }
 
+    .install-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 500;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      display: none;
+    }
+
     @media (max-width: 768px) {
       .header-content {
         flex-direction: column;
@@ -324,28 +276,17 @@
         grid-template-columns: 1fr;
       }
       
-      .install-banner {
-        flex-direction: column;
-        text-align: center;
-        padding: 15px;
-      }
-      
-      .banner-buttons {
-        display: flex;
-        gap: 10px;
+      .install-btn {
+        bottom: 10px;
+        right: 10px;
+        padding: 10px 16px;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- インストールバナー -->
-  <div class="install-banner" id="installBanner">
-    <div class="banner-text" id="bannerText">Install Paris Travel Guide for full experience</div>
-    <div class="banner-buttons">
-      <button class="banner-btn" id="installButton">Install Now</button>
-      <button class="banner-close" id="closeBanner">×</button>
-    </div>
-  </div>
+  <button id="installButton" class="install-btn">Install App</button>
 
   <header>
     <div class="header-content">
@@ -392,13 +333,179 @@
   </footer>
 
   <script>
-    // 観光地データ（前回と同じ）
+    // 修正した観光地データ
     const attractions = {
       en: [
-        // ...（前回と同じデータ）...
+        {
+          id: 1,
+          name: "Eiffel Tower",
+          description: "The iconic iron lattice tower on the Champ de Mars, named after engineer Gustave Eiffel. Standing at 330 meters tall, it's one of the most recognizable structures in the world and offers breathtaking views of Paris.",
+          image: "eiffel.jpg",
+          link: "https://www.toureiffel.paris/en"
+        },
+        {
+          id: 2,
+          name: "Louvre Museum",
+          description: "The world's largest art museum and a historic monument. Home to the Mona Lisa, Venus de Milo, and over 35,000 works of art spanning from antiquity to the 21st century.",
+          image: "louvre.jpg",
+          link: "https://www.louvre.fr/en"
+        },
+        {
+          id: 3,
+          name: "Notre-Dame Cathedral",
+          description: "Medieval Catholic cathedral on the Île de la Cité. Known for its French Gothic architecture, historic significance, and as the setting for Victor Hugo's novel.",
+          image: "notredame.jpg",
+          link: "https://www.notredamedeparis.fr/en/"
+        },
+        {
+          id: 4,
+          name: "Montmartre & Sacré-Cœur",
+          description: "Historic artistic neighborhood crowned by the stunning white-domed Basilica of the Sacred Heart. Offers panoramic views of Paris and retains its village-like charm.",
+          image: "montmartre.jpg",
+          link: "https://www.sacre-coeur-montmartre.com/english/"
+        },
+        {
+          id: 5,
+          name: "Musée d'Orsay",
+          description: "Housed in a former railway station, this museum contains French art from 1848 to 1914, including the largest collection of impressionist and post-impressionist masterpieces.",
+          image: "orsay.jpg",
+          link: "https://www.musee-orsay.fr/en"
+        },
+        {
+          id: 6,
+          name: "Champs-Élysées",
+          description: "Famous avenue stretching 1.9 km from Place de la Concorde to Arc de Triomphe. Lined with cafes, luxury shops, theaters, and the annual finish line of the Tour de France.",
+          image: "champs.jpg",
+          link: "https://www.champselysees-paris.com/"
+        },
+        {
+          id: 7,
+          name: "Palace of Versailles",
+          description: "Former royal residence built by Louis XIV, featuring the Hall of Mirrors, extensive gardens, and the Grand Trianon. A UNESCO World Heritage site located just outside Paris.",
+          image: "versailles.jpg",
+          link: "https://en.chateauversailles.fr/"
+        },
+        {
+          id: 8,
+          name: "Sainte-Chapelle",
+          description: "Gothic chapel on the Île de la Cité, renowned for its stunning stained glass windows that depict 1,113 biblical scenes in vibrant colors.",
+          image: "sainte_chapelle.jpg",
+          link: "https://www.sainte-chapelle.fr/en/"
+        },
+        {
+          id: 9,
+          name: "Luxembourg Gardens",
+          description: "60-acre park created in 1612 featuring tree-lined promenades, tennis courts, flowerbeds, model sailboats on the Grand Bassin, and the Luxembourg Palace.",
+          image: "luxembourg.jpg",
+          link: "https://en.parisinfo.com/paris-museum-monument/71371/Jardin-du-Luxembourg"
+        },
+        {
+          id: 10,
+          name: "Moulin Rouge",
+          description: "World-famous cabaret known as the birthplace of the modern form of can-can dance. Established in 1889 with its iconic red windmill on its roof.",
+          image: "moulinrouge.jpg",
+          link: "https://www.moulinrouge.fr/"
+        },
+        {
+          id: 11,
+          name: "Père Lachaise Cemetery",
+          description: "Largest cemetery in Paris and one of the world's most visited, with graves of Jim Morrison, Oscar Wilde, Édith Piaf, and many other notable figures.",
+          image: "perelachaise.jpg",
+          link: "https://www.pere-lachaise.com/"
+        },
+        {
+          id: 12,
+          name: "Seine River Cruise",
+          description: "Experience Paris from the water with a cruise along the Seine River, passing by major landmarks beautifully illuminated at night.",
+          image: "seine.jpg",
+          link: "https://www.bateauxparisiens.com/en.html"
+        }
       ],
       fr: [
-        // ...（前回と同じデータ）...
+        {
+          id: 1,
+          name: "Tour Eiffel",
+          description: "L'emblématique tour en treillis de fer sur le Champ de Mars, nommée d'après l'ingénieur Gustave Eiffel. Culminant à 330 mètres, c'est l'une des structures les plus reconnaissables au monde et offre une vue imprenable sur Paris.",
+          image: "eiffel.jpg",
+          link: "https://www.toureiffel.paris/fr"
+        },
+        {
+          id: 2,
+          name: "Musée du Louvre",
+          description: "Le plus grand musée d'art du monde et un monument historique. Abritant la Joconde, la Vénus de Milo et plus de 35 000 œuvres d'art de l'Antiquité au XXIe siècle.",
+          image: "louvre.jpg",
+          link: "https://www.louvre.fr/fr"
+        },
+        {
+          id: 3,
+          name: "Cathédrale Notre-Dame",
+          description: "Cathédrale catholique médiévale située sur l'Île de la Cité. Connue pour son architecture gothique française, son importance historique et comme cadre du roman de Victor Hugo.",
+          image: "notredame.jpg",
+          link: "https://www.notredamedeparis.fr/"
+        },
+        {
+          id: 4,
+          name: "Montmartre & Sacré-Cœur",
+          description: "Quartier artistique historique dominé par la magnifique basilique du Sacré-Cœur à dôme blanc. Offre une vue panoramique sur Paris et conserve son charme villageois.",
+          image: "montmartre.jpg",
+          link: "https://www.sacre-coeur-montmartre.com/"
+        },
+        {
+          id: 5,
+          name: "Musée d'Orsay",
+          description: "Installé dans une ancienne gare ferroviaire, ce musée contient l'art français de 1848 à 1914, dont la plus grande collection de chefs-d'œuvre impressionnistes et post-impressionnistes.",
+          image: "orsay.jpg",
+          link: "https://www.musee-orsay.fr/fr"
+        },
+        {
+          id: 6,
+          name: "Champs-Élysées",
+          description: "Avenue célèbre s'étendant sur 1,9 km de la Place de la Concorde à l'Arc de Triomphe. Bordée de cafés, boutiques de luxe, théâtres et ligne d'arrivée annuelle du Tour de France.",
+          image: "champs.jpg",
+          link: "https://www.champselysees-paris.com/"
+        },
+        {
+          id: 7,
+          name: "Château de Versailles",
+          description: "Ancienne résidence royale construite par Louis XIV, avec la Galerie des Glaces, les jardins extensifs et le Grand Trianon. Site classé au patrimoine mondial de l'UNESCO situé près de Paris.",
+          image: "versailles.jpg",
+          link: "https://www.chateauversailles.fr/"
+        },
+        {
+          id: 8,
+          name: "Sainte-Chapelle",
+          description: "Chapelle gothique sur l'Île de la Cité, réputée pour ses magnifiques vitraux représentant 1113 scènes bibliques aux couleurs vibrantes.",
+          image: "sainte_chapelle.jpg",
+          link: "https://www.sainte-chapelle.fr/fr/"
+        },
+        {
+          id: 9,
+          name: "Jardin du Luxembourg",
+          description: "Parc de 24 hectares créé en 1612 avec des promenades ombragées, des courts de tennis, des parterres de fleurs, des voiliers modèles sur le Grand Bassin et le Palais du Luxembourg.",
+          image: "luxembourg.jpg",
+          link: "https://www.senat.fr/visite/jardin/index.html"
+        },
+        {
+          id: 10,
+          name: "Moulin Rouge",
+          description: "Célèbre cabaret mondialement connu comme le berceau du cancan moderne. Établi en 1889 avec son emblématique moulin à vent rouge sur son toit.",
+          image: "moulinrouge.jpg",
+          link: "https://www.moulinrouge.fr/"
+        },
+        {
+          id: 11,
+          name: "Cimetière du Père-Lachaise",
+          description: "Plus grand cimetière de Paris et l'un des plus visités au monde, avec les tombes de Jim Morrison, Oscar Wilde, Édith Piaf et de nombreuses autres personnalités notables.",
+          image: "perelachaise.jpg",
+          link: "https://www.pere-lachaise.com/"
+        },
+        {
+          id: 12,
+          name: "Croisière sur la Seine",
+          description: "Découvrez Paris depuis l'eau avec une croisière sur la Seine, passant devant les principaux monuments magnifiquement illuminés la nuit.",
+          image: "seine.jpg",
+          link: "https://www.bateauxparisiens.com/fr.html"
+        }
       ]
     };
 
@@ -416,74 +523,19 @@
     const heroTitle = document.getElementById('heroTitle');
     const heroDesc = document.getElementById('heroDesc');
     const installButton = document.getElementById('installButton');
-    const installBanner = document.getElementById('installBanner');
-    const closeBanner = document.getElementById('closeBanner');
-    const bannerText = document.getElementById('bannerText');
 
     // PWAインストール用変数
     let deferredPrompt;
-    let isAppInstalled = false;
 
     // 初期設定
     let isDarkMode = true;
     let currentLanguage = 'en';
 
-    // インストールバナーの表示状態
-    let bannerVisible = false;
-    let bannerTimeout;
-
     // 初期化処理
     function initApp() {
-      // インストール状態を確認
-      checkInstallationStatus();
-      
-      // イベントリスナー設定
-      setupEventListeners();
-      
-      // コンテンツレンダリング
       renderAttractions();
-      
-      // Service Worker登録
+      setupEventListeners();
       registerServiceWorker();
-    }
-
-    // インストール状態を確認
-    function checkInstallationStatus() {
-      // 表示モードでインストール済みか確認
-      const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches;
-      const isFullscreen = window.matchMedia('(display-mode: fullscreen)').matches;
-      
-      if (window.navigator.standalone || isInStandaloneMode || isFullscreen) {
-        isAppInstalled = true;
-        console.log('App is running in installed mode');
-      } else {
-        // インストールされていない場合、バナー表示の準備
-        setTimeout(showInstallBanner, 5000); // 5秒後に表示
-      }
-    }
-
-    // インストールバナーを表示
-    function showInstallBanner() {
-      if (isAppInstalled || !deferredPrompt || bannerVisible) return;
-      
-      installBanner.classList.remove('hidden');
-      installBanner.classList.add('visible');
-      bannerVisible = true;
-      
-      // バナー自動非表示タイマー
-      bannerTimeout = setTimeout(() => {
-        hideInstallBanner();
-      }, 15000); // 15秒後に自動非表示
-    }
-
-    // インストールバナーを非表示
-    function hideInstallBanner() {
-      if (!bannerVisible) return;
-      
-      installBanner.classList.remove('visible');
-      installBanner.classList.add('hidden');
-      bannerVisible = false;
-      clearTimeout(bannerTimeout);
     }
 
     // イベントリスナー設定
@@ -527,13 +579,8 @@
           const { outcome } = await deferredPrompt.userChoice;
           console.log(`User response: ${outcome}`);
           deferredPrompt = null;
-          hideInstallBanner();
+          installButton.style.display = 'none';
         }
-      });
-
-      // バナー閉じる
-      closeBanner.addEventListener('click', () => {
-        hideInstallBanner();
       });
     }
 
@@ -542,20 +589,16 @@
       const heroTexts = {
         en: {
           title: "Discover Paris",
-          desc: "Explore the most beautiful attractions of the City of Light",
-          banner: "Install Paris Travel Guide for full experience"
+          desc: "Explore the most beautiful attractions of the City of Light"
         },
         fr: {
           title: "Découvrez Paris",
-          desc: "Explorez les plus belles attractions de la Ville Lumière",
-          banner: "Installez Paris Travel Guide pour une expérience complète"
+          desc: "Explorez les plus belles attractions de la Ville Lumière"
         }
       };
       
-      const texts = heroTexts[currentLanguage];
-      heroTitle.textContent = texts.title;
-      heroDesc.textContent = texts.desc;
-      bannerText.textContent = texts.banner;
+      heroTitle.textContent = heroTexts[currentLanguage].title;
+      heroDesc.textContent = heroTexts[currentLanguage].desc;
       
       renderAttractions();
     }
@@ -610,19 +653,13 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      
-      // インストールバナーを表示
-      showInstallBanner();
+      installButton.style.display = 'block';
     });
 
     window.addEventListener('appinstalled', () => {
       console.log('PWA was installed');
-      isAppInstalled = true;
-      hideInstallBanner();
+      installButton.style.display = 'none';
       deferredPrompt = null;
-      
-      // インストール後にリダイレクト（オプション）
-      // window.location.href = '/?installed=true';
     });
 
     // アプリ初期化
