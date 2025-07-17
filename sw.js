@@ -1,4 +1,4 @@
-const CACHE_NAME = 'paris-guide-v5';
+const CACHE_NAME = 'paris-guide-v4';
 const urlsToCache = [
   '/',
   'index.html',
@@ -45,35 +45,33 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// フェッチイベント: キャッシュファースト戦略
+// フェッチイベント
 self.addEventListener('fetch', event => {
-  // インストールプロンプトを表示するために重要なリクエスト
-  if (event.request.url.includes('install-promotion')) {
-    return;
-  }
+  // 外部リクエストは直接フェッチ
+  if (event.request.url.indexOf('http') !== 0) return;
   
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // キャッシュがあれば返す
+        // キャッシュがある場合は返す
         if (response) {
           return response;
         }
         
-        // キャッシュになければネットワークから取得
+        // ネットワークから取得
         return fetch(event.request)
           .then(response => {
-            // キャッシュ可能なレスポンスをキャッシュに追加
+            // 有効なレスポンスをキャッシュ
             if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
-
+            
             const responseToCache = response.clone();
             caches.open(CACHE_NAME)
               .then(cache => {
                 cache.put(event.request, responseToCache);
               });
-
+            
             return response;
           });
       })
