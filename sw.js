@@ -1,9 +1,7 @@
-const CACHE_NAME = 'paris-guide-v3';
-const OFFLINE_URL = 'offline.html';
+const CACHE_NAME = 'paris-guide-v4';
 const urlsToCache = [
   '/',
   'index.html',
-  'offline.html',
   'manifest.json',
   'images/eiffel.jpg',
   'images/louvre.jpg',
@@ -25,7 +23,6 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Opened cache');
         return cache.addAll(urlsToCache);
       })
       .then(() => self.skipWaiting())
@@ -34,70 +31,49 @@ self.addEventListener('install', event => {
 
 // アクティベートイベント
 self.addEventListener('activate', event => {
-  // 古いキャッシュを削除
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     })
   );
-  // すべてのクライアントを制御
   self.clients.claim();
 });
 
-// フェッチイベント: ネットワーク優先、フォールバックでキャッシュ
+// フェッチイベント
 self.addEventListener('fetch', event => {
-  // 外部リソースはキャッシュしない
-  if (event.request.url.startsWith('http') && 
-      !event.request.url.includes('localhost') &&
-      !event.request.url.includes('127.0.0.1')) {
-    return fetch(event.request);
-  }
-
+  // 外部リクエストは直接フェッチ
+  if (event.request.url.indexOf('http') !== 0) return;
+  
   event.respondWith(
-    fetch(event.request)
+    caches.match(event.request)
       .then(response => {
-        // レスポンスが有効ならキャッシュ
-        if (response && response.status === 200) {
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
+        // キャッシュがある場合は返す
+        if (response) {
+          return response;
         }
-        return response;
-      })
-      .catch(() => {
-        // ネットワークエラー時はキャッシュから取得
-        return caches.match(event.request)
+        
+        // ネットワークから取得
+        return fetch(event.request)
           .then(response => {
-            // キャッシュにない場合はオフラインページを表示
-            if (!response && event.request.mode === 'navigate') {
-              return caches.match(OFFLINE_URL);
+            // 有効なレスポンスをキャッシュ
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
             }
+            
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then(cache => {
+                cache.put(event.request, responseToCache);
+              });
+            
             return response;
           });
       })
-  );
-});
-
-// プッシュ通知イベント（将来の拡張用）
-self.addEventListener('push', event => {
-  const data = event.data.json();
-  const title = data.title || 'Paris Travel Guide';
-  const options = {
-    body: data.body || 'New update available!',
-    icon: 'icons/icon-192x192.png',
-    badge: 'icons/icon-96x96.png'
-  };
-
-  event.waitUntil(
-    self.registration.showNotification(title, options)
   );
 });
