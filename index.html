@@ -1,0 +1,597 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#121212">
+  <title>Paris Travel Guide</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192x192.png" type="image/png">
+  <style>
+    :root {
+      /* ダークモードデフォルト */
+      --bg-primary: #121212;
+      --bg-secondary: #1e1e1e;
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --accent-color: #bb86fc;
+      --card-bg: #242424;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .light-mode {
+      --bg-primary: #f5f5f7;
+      --bg-secondary: #ffffff;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --accent-color: #6200ee;
+      --card-bg: #ffffff;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: background-color 0.3s, color 0.3s;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--bg-secondary);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #bb86fc, #03dac6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .attractions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .read-more {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: var(--bg-secondary);
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      border-radius: 20px;
+      overflow: hidden;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 20px;
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .modal-body {
+      padding: 30px;
+    }
+
+    .modal-img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    footer {
+      background: var(--bg-secondary);
+      text-align: center;
+      padding: 2.5rem;
+      margin-top: 3rem;
+      box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-link {
+      color: var(--accent-color);
+      text-decoration: none;
+      display: block;
+      margin-top: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .attractions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">Paris Travel Guide</div>
+      <div class="controls">
+        <button id="themeToggle" class="btn">
+          <span>🌙</span> Dark Mode
+        </button>
+        <button id="languageToggle" class="btn btn-outline">
+          <span>🇫🇷</span> French
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 id="heroTitle">Discover Paris</h1>
+      <p id="heroDesc">Explore the most beautiful attractions of the City of Light</p>
+    </section>
+
+    <div class="attractions-grid" id="attractionsContainer">
+      <!-- 観光地カードはJSで生成 -->
+    </div>
+  </main>
+
+  <div class="modal" id="attractionModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle"></h2>
+        <button class="close-btn" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <img id="modalImg" class="modal-img" alt="Attraction">
+        <p id="modalDesc"></p>
+        <a id="officialLink" class="btn" target="_blank">Official Website</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Contact us</p>
+    <a href="mailto:mementomorikatsu@gmail.com" class="contact-link">mementomorikatsu@gmail.com</a>
+  </footer>
+
+  <script>
+    // 観光地データ
+    const attractions = {
+      en: [
+        {
+          id: 1,
+          name: "Eiffel Tower",
+          description: "The iconic iron lattice tower on the Champ de Mars, named after engineer Gustave Eiffel. Standing at 330 meters tall, it's one of the most recognizable structures in the world and offers breathtaking views of Paris.",
+          image: "eiffel.jpg",
+          link: "https://www.toureiffel.paris/en"
+        },
+        {
+          id: 2,
+          name: "Louvre Museum",
+          description: "The world's largest art museum and a historic monument. Home to the Mona Lisa, Venus de Milo, and over 35,000 works of art spanning from antiquity to the 21st century.",
+          image: "louvre.jpg",
+          link: "https://www.louvre.fr/en"
+        },
+        {
+          id: 3,
+          name: "Notre-Dame Cathedral",
+          description: "Medieval Catholic cathedral on the Île de la Cité. Known for its French Gothic architecture, historic significance, and as the setting for Victor Hugo's novel.",
+          image: "notredame.jpg",
+          link: "https://www.notredamedeparis.fr/en/"
+        },
+        {
+          id: 4,
+          name: "Montmartre & Sacré-Cœur",
+          description: "Historic artistic neighborhood crowned by the stunning white-domed Basilica of the Sacred Heart. Offers panoramic views of Paris and retains its village-like charm.",
+          image: "montmartre.jpg",
+          link: "https://www.sacre-coeur-montmartre.com/english/"
+        },
+        {
+          id: 5,
+          name: "Musée d'Orsay",
+          description: "Housed in a former railway station, this museum contains French art from 1848 to 1914, including the largest collection of impressionist and post-impressionist masterpieces.",
+          image: "orsay.jpg",
+          link: "https://www.musee-orsay.fr/en"
+        },
+        {
+          id: 6,
+          name: "Champs-Élysées",
+          description: "Famous avenue stretching 1.9 km from Place de la Concorde to Arc de Triomphe. Lined with cafes, luxury shops, theaters, and the annual finish line of the Tour de France.",
+          image: "champs.jpg",
+          link: "https://www.champselysees-paris.com/"
+        },
+        {
+          id: 7,
+          name: "Palace of Versailles",
+          description: "Former royal residence built by Louis XIV, featuring the Hall of Mirrors, extensive gardens, and the Grand Trianon. A UNESCO World Heritage site located just outside Paris.",
+          image: "versailles.jpg",
+          link: "https://en.chateauversailles.fr/"
+        },
+        {
+          id: 8,
+          name: "Sainte-Chapelle",
+          description: "Gothic chapel on the Île de la Cité, renowned for its stunning stained glass windows that depict 1,113 biblical scenes in vibrant colors.",
+          image: "sainte_chapelle.jpg",
+          link: "https://www.sainte-chapelle.fr/en/"
+        },
+        {
+          id: 9,
+          name: "Luxembourg Gardens",
+          description: "60-acre park created in 1612 featuring tree-lined promenades, tennis courts, flowerbeds, model sailboats on the Grand Bassin, and the Luxembourg Palace.",
+          image: "luxembourg.jpg",
+          link: "https://en.parisinfo.com/paris-museum-monument/71371/Jardin-du-Luxembourg"
+        },
+        {
+          id: 10,
+          name: "Moulin Rouge",
+          description: "World-famous cabaret known as the birthplace of the modern form of can-can dance. Established in 1889 with its iconic red windmill on its roof.",
+          image: "moulinrouge.jpg",
+          link: "https://www.moulinrouge.fr/"
+        },
+        {
+          id: 11,
+          name: "Père Lachaise Cemetery",
+          description: "Largest cemetery in Paris and one of the world's most visited, with graves of Jim Morrison, Oscar Wilde, Édith Piaf, and many other notable figures.",
+          image: "perelachaise.jpg",
+          link: "https://www.pere-lachaise.com/"
+        },
+        {
+          id: 12,
+          name: "Seine River Cruise",
+          description: "Experience Paris from the water with a cruise along the Seine River, passing by major landmarks beautifully illuminated at night.",
+          image: "seine.jpg",
+          link: "https://www.bateauxparisiens.com/en.html"
+        }
+      ],
+      fr: [
+        {
+          id: 1,
+          name: "Tour Eiffel",
+          description: "L'emblématique tour en treillis de fer sur le Champ de Mars, nommée d'après l'ingénieur Gustave Eiffel. Culminant à 330 mètres, c'est l'une des structures les plus reconnaissables au monde et offre une vue imprenable sur Paris.",
+          image: "eiffel.jpg",
+          link: "https://www.toureiffel.paris/fr"
+        },
+        {
+          id: 2,
+          name: "Musée du Louvre",
+          description: "Le plus grand musée d'art du monde et un monument historique. Abritant la Joconde, la Vénus de Milo et plus de 35 000 œuvres d'art de l'Antiquité au XXIe siècle.",
+          image: "louvre.jpg",
+          link: "https://www.louvre.fr/fr"
+        },
+        {
+          id: 3,
+          name: "Cathédrale Notre-Dame",
+          description: "Cathédrale catholique médiévale située sur l'Île de la Cité. Connue pour son architecture gothique française, son importance historique et comme cadre du roman de Victor Hugo.",
+          image: "notredame.jpg",
+          link: "https://www.notredamedeparis.fr/"
+        },
+        {
+          id: 4,
+          name: "Montmartre & Sacré-Cœur",
+          description: "Quartier artistique historique dominé par la magnifique basilique du Sacré-Cœur à dôme blanc. Offre une vue panoramique sur Paris et conserve son charme villageois.",
+          image: "montmartre.jpg",
+          link: "https://www.sacre-coeur-montmartre.com/"
+        },
+        {
+          id: 5,
+          name: "Musée d'Orsay",
+          description: "Installé dans une ancienne gare ferroviaire, ce musée contient l'art français de 1848 à 1914, dont la plus grande collection de chefs-d'œuvre impressionnistes et post-impressionnistes.",
+          image: "orsay.jpg",
+          link: "https://www.musee-orsay.fr/fr"
+        },
+        {
+          id: 6,
+          name: "Champs-Élysées",
+          description: "Avenue célèbre s'étendant sur 1,9 km de la Place de la Concorde à l'Arc de Triomphe. Bordée de cafés, boutiques de luxe, théâtres et ligne d'arrivée annuelle du Tour de France.",
+          image: "champs.jpg",
+          link: "https://www.champselysees-paris.com/"
+        },
+        {
+          id: 7,
+          name: "Château de Versailles",
+          description: "Ancienne résidence royale construite par Louis XIV, avec la Galerie des Glaces, les jardins extensifs et le Grand Trianon. Site classé au patrimoine mondial de l'UNESCO situé près de Paris.",
+          image: "versailles.jpg",
+          link: "https://www.chateauversailles.fr/"
+        },
+        {
+          id: 8,
+          name: "Sainte-Chapelle",
+          description: "Chapelle gothique sur l'Île de la Cité, réputée pour ses magnifiques vitraux représentant 1113 scènes bibliques aux couleurs vibrantes.",
+          image: "sainte_chapelle.jpg",
+          link: "https://www.sainte-chapelle.fr/fr/"
+        },
+        {
+          id: 9,
+          name: "Jardin du Luxembourg",
+          description: "Parc de 24 hectares créé en 1612 avec des promenades ombragées, des courts de tennis, des parterres de fleurs, des voiliers modèles sur le Grand Bassin et le Palais du Luxembourg.",
+          image: "luxembourg.jpg",
+          link: "https://www.senat.fr/visite/jardin/index.html"
+        },
+        {
+          id: 10,
+          name: "Moulin Rouge",
+          description: "Célèbre cabaret mondialement connu comme le berceau du cancan moderne. Établi en 1889 avec son emblématique moulin à vent rouge sur son toit.",
+          image: "moulinrouge.jpg",
+          link: "https://www.moulinrouge.fr/"
+        },
+        {
+          id: 11,
+          name: "Cimetière du Père-Lachaise",
+          description: "Plus grand cimetière de Paris et l'un des plus visités au monde, avec les tombes de Jim Morrison, Oscar Wilde, Édith Piaf et de nombreuses autres personnalités notables.",
+          image: "perelachaise.jpg",
+          link: "https://www.pere-lachaise.com/"
+        },
+        {
+          id: 12,
+          name: "Croisière sur la Seine",
+          description: "Découvrez Paris depuis l'eau avec une croisière sur la Seine, passant devant les principaux monuments magnifiquement illuminés la nuit.",
+          image: "seine.jpg",
+          link: "https://www.bateauxparisiens.com/fr.html"
+        }
+      ]
+    };
+
+    // DOM要素
+    const body = document.body;
+    const themeToggle = document.getElementById('themeToggle');
+    const languageToggle = document.getElementById('languageToggle');
+    const attractionsContainer = document.getElementById('attractionsContainer');
+    const modal = document.getElementById('attractionModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalImg = document.getElementById('modalImg');
+    const modalDesc = document.getElementById('modalDesc');
+    const officialLink = document.getElementById('officialLink');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroDesc = document.getElementById('heroDesc');
+
+    // 初期設定
+    let isDarkMode = true;
+    let currentLanguage = 'en';
+
+    // テーマ切り替え
+    themeToggle.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      body.classList.toggle('light-mode', !isDarkMode);
+      themeToggle.innerHTML = isDarkMode ? 
+        '<span>🌙</span> Dark Mode' : 
+        '<span>☀️</span> Light Mode';
+    });
+
+    // 言語切り替え
+    languageToggle.addEventListener('click', () => {
+      currentLanguage = currentLanguage === 'en' ? 'fr' : 'en';
+      updateLanguage();
+      languageToggle.innerHTML = currentLanguage === 'en' ? 
+        '<span>🇫🇷</span> French' : 
+        '<span>🇬🇧</span> English';
+    });
+
+    // 言語更新
+    function updateLanguage() {
+      const heroTexts = {
+        en: {
+          title: "Discover Paris",
+          desc: "Explore the most beautiful attractions of the City of Light"
+        },
+        fr: {
+          title: "Découvrez Paris",
+          desc: "Explorez les plus belles attractions de la Ville Lumière"
+        }
+      };
+      
+      heroTitle.textContent = heroTexts[currentLanguage].title;
+      heroDesc.textContent = heroTexts[currentLanguage].desc;
+      
+      renderAttractions();
+    }
+
+    // 観光地レンダリング
+    function renderAttractions() {
+      attractionsContainer.innerHTML = '';
+      attractions[currentLanguage].forEach(attraction => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="images/${attraction.image}" alt="${attraction.name}" class="card-img">
+          <div class="card-content">
+            <h3>${attraction.name}</h3>
+            <p>${attraction.description}</p>
+            <div class="read-more">Read more →</div>
+          </div>
+        `;
+        card.addEventListener('click', () => openModal(attraction));
+        attractionsContainer.appendChild(card);
+      });
+    }
+
+    // モーダル表示
+    function openModal(attraction) {
+      modalTitle.textContent = attraction.name;
+      modalImg.src = `images/${attraction.image}`;
+      modalImg.alt = attraction.name;
+      modalDesc.textContent = attraction.description;
+      officialLink.href = attraction.link;
+      officialLink.textContent = currentLanguage === 'en' ? 'Official Website' : 'Site Officiel';
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // モーダル閉じる
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+
+    // 初期レンダリング
+    renderAttractions();
+
+    // Service Worker登録
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registered:', registration);
+          })
+          .catch(error => {
+            console.log('ServiceWorker registration failed:', error);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
