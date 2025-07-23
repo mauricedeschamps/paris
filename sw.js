@@ -3,7 +3,6 @@ const urlsToCache = [
   '/',
   'index.html',
   'manifest.json',
-  'imedia_Commons_%28cropped%29.jpg',
   'images/https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/250px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg',
   'images/https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9Q4EzkuhPEb-e1Lr83hoXNaOkDnvG-5OZf8gwTRAhyTPgiSv-c1RvBK4&s=10',
   'images/https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSl24y2x9bKnN9OgNpf9gczpVwD8bS3It0TwA&s',
