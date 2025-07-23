@@ -45,6 +45,11 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+// service-worker.js
+self.addEventListener('install', () => {
+  self.skipWaiting(); // 即時更新を強制
+});
+
 // フェッチイベント
 self.addEventListener('fetch', event => {
   // 外部リクエストは直接フェッチ
