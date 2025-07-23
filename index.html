@@ -626,26 +626,25 @@
       renderAttractions();
     }
 
-    // 観光地レンダリング
-    function renderAttractions() {
-      attractionsContainer.innerHTML = '';
-      const attractionsList = attractions[currentLanguage];
-      
-      attractionsList.forEach(attraction => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <img src="images/${attraction.image}" alt="${attraction.name}" class="card-img">
-          <div class="card-content">
-            <h3>${attraction.name}</h3>
-            <p>${attraction.description}</p>
-            <div class="read-more">${currentLanguage === 'en' ? 'Read more →' : 'Lire la suite →'}</div>
-          </div>
-        `;
-        card.addEventListener('click', () => openModal(attraction));
-        attractionsContainer.appendChild(card);
-      });
-    }
+function renderAttractions() {
+  attractionsContainer.innerHTML = '';
+  const attractionsList = attractions[currentLanguage];
+  
+  attractionsList.forEach(attraction => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${attraction.image}" alt="${attraction.name}" class="card-img"> <!-- ここを修正 -->
+      <div class="card-content">
+        <h3>${attraction.name}</h3>
+        <p>${attraction.description}</p>
+        <div class="read-more">${currentLanguage === 'en' ? 'Read more →' : 'Lire la suite →'}</div>
+      </div>
+    `;
+    card.addEventListener('click', () => openModal(attraction));
+    attractionsContainer.appendChild(card);
+  });
+}
 
     // モーダル表示
     function openModal(attraction) {
