@@ -48,13 +48,17 @@
   padding-top: 80px; /* ヘッダー高に合わせて調整 */
 }
 
+    
     header {
-      background-color: var(--bg-secondary);
-      padding: 1.5rem;
-      box-shadow: var(--shadow);
-      position: fixed;
-      top: 0;
-      z-index: 100;
+  background-color: var(--bg-secondary);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  position: absolute; /* または fixed スクロール固定なら変更可 */
+  top: 0;
+  left: 0; /* 左端固定 */
+  width: 100%; /* 画面幅いっぱい */
+  box-sizing: border-box; /* paddingを含めた幅計算 */
+  z-index: 100;
     }
 
     .header-content {
