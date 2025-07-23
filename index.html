@@ -42,7 +42,11 @@
       transition: background-color 0.3s, color 0.3s;
       min-height: 100vh;
       line-height: 1.6;
-    }
+
+/* 案1: bodyにパディング追加 */
+
+  padding-top: 80px; /* ヘッダー高に合わせて調整 */
+}
 
     header {
       background-color: var(--bg-secondary);
@@ -100,7 +104,11 @@
       max-width: 1200px;
       margin: 2rem auto;
       padding: 0 1.5rem;
-    }
+
+/* 案2: メインコンテンツ直下にスペーサー */
+
+  margin-top: 80px; /* ヘッダー高に合わせて調整 */
+}
 
     .hero {
       text-align: center;
