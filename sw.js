@@ -16,7 +16,7 @@ const urlsToCache = [
   'images/https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5jgeoKzUiNfrooK1MO4uC_Gd8aL1zGhzWv2SSsuCpIpdUCZZQUxt1QoU&s=10',
   'images/https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR39d_wrAtU5p2NahrOcTEZLezBj7s3EukepR19eu6cFQWbZwpP61I_sXU&s=10',
   'images/https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREOB0kVDBUmPIPTqlTvfDaBMJWLe7SjC32iOUX1MjefNcBNE0ii3XinY59&s=10',
-  'icons/icon-192x192.png'
+  'icons/icon-192x192.png',
   'icons/icon-512×512.png'
 ];
 
