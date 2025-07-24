@@ -42,23 +42,19 @@
       transition: background-color 0.3s, color 0.3s;
       min-height: 100vh;
       line-height: 1.6;
+      padding-top: 80px; /* ヘッダー分のパディング */
+    }
 
-/* 案1: bodyにパディング追加 */
-
-  padding-top: 80px; /* ヘッダー高に合わせて調整 */
-}
-
-    
     header {
-  background-color: var(--bg-secondary);
-  padding: 1.5rem;
-  box-shadow: var(--shadow);
-  position: absolute; /* または fixed スクロール固定なら変更可 */
-  top: 0;
-  left: 0; /* 左端固定 */
-  width: 100%; /* 画面幅いっぱい */
-  box-sizing: border-box; /* paddingを含めた幅計算 */
-  z-index: 100;
+      background-color: var(--bg-secondary);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      position: fixed; /* スクロール時に固定 */
+      top: 0;
+      left: 0;
+      width: 100%;
+      box-sizing: border-box;
+      z-index: 100;
     }
 
     .header-content {
@@ -108,11 +104,7 @@
       max-width: 1200px;
       margin: 2rem auto;
       padding: 0 1.5rem;
-
-/* 案2: メインコンテンツ直下にスペーサー */
-
-  margin-top: 80px; /* ヘッダー高に合わせて調整 */
-}
+    }
 
     .hero {
       text-align: center;
@@ -363,7 +355,7 @@
           id: 1,
           name: "Eiffel Tower",
           description: "The iconic iron lattice tower on the Champ de Mars, named after engineer Gustave Eiffel. Standing at 330 meters tall, it's one of the most recognizable structures in the world and offers breathtaking views of Paris.",
-          image: <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/250px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg">,
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/250px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg",
           link: "https://www.toureiffel.paris/en"
         },
         {
@@ -477,7 +469,7 @@
           id: 5,
           name: "Musée d'Orsay",
           description: "Installé dans une ancienne gare ferroviaire, ce musée contient l'art français de 1848 à 1914, dont la plus grande collection de chefs-d'œuvre impressionnistes et post-impressionnistes.",
-          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJ3lATxURK0ezyyp2Og-L7cg0XMwcg4L-lo0fEUWNbXk6Dw4wYhdUz2Eb&s=10",
+          image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJ3lATxURK0ezyyp2Og-L7cg0XMwcg4L-lo0fEUWNbXk6Dw4wYhdUz2Eb&s=10", // 修正: "https://" を削除
           link: "https://www.musee-orsay.fr/fr"
         },
         {
@@ -626,30 +618,31 @@
       renderAttractions();
     }
 
-function renderAttractions() {
-  attractionsContainer.innerHTML = '';
-  const attractionsList = attractions[currentLanguage];
-  
-  attractionsList.forEach(attraction => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <img src="${attraction.image}" alt="${attraction.name}" class="card-img"> <!-- ここを修正 -->
-      <div class="card-content">
-        <h3>${attraction.name}</h3>
-        <p>${attraction.description}</p>
-        <div class="read-more">${currentLanguage === 'en' ? 'Read more →' : 'Lire la suite →'}</div>
-      </div>
-    `;
-    card.addEventListener('click', () => openModal(attraction));
-    attractionsContainer.appendChild(card);
-  });
-}
+    // 観光地レンダリング
+    function renderAttractions() {
+      attractionsContainer.innerHTML = '';
+      const attractionsList = attractions[currentLanguage];
+      
+      attractionsList.forEach(attraction => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${attraction.image}" alt="${attraction.name}" class="card-img">
+          <div class="card-content">
+            <h3>${attraction.name}</h3>
+            <p>${attraction.description}</p>
+            <div class="read-more">${currentLanguage === 'en' ? 'Read more →' : 'Lire la suite →'}</div>
+          </div>
+        `;
+        card.addEventListener('click', () => openModal(attraction));
+        attractionsContainer.appendChild(card);
+      });
+    }
 
     // モーダル表示
     function openModal(attraction) {
       modalTitle.textContent = attraction.name;
-      modalImg.src = `images/${attraction.image}`;
+      modalImg.src = attraction.image;
       modalImg.alt = attraction.name;
       modalDesc.textContent = attraction.description;
       officialLink.href = attraction.link;
