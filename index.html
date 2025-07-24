@@ -45,17 +45,18 @@
       padding-top: 80px; /* ヘッダー分のパディング */
     }
 
-    header {
-      background-color: var(--bg-secondary);
-      padding: 1.5rem;
-      box-shadow: var(--shadow);
-      position: absolute; /* スクロール時に固定 */
-      top: 0;
-      left: 0;
-      width: 100%;
-      box-sizing: border-box;
-      z-index: 100;
-    }
+   header {
+  background-color: var(--bg-secondary);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  position: absolute; /* または fixed スクロール固定なら変更可 */
+  top: 0;
+  left: 0; /* 左端固定 */
+  width: 100%; /* 画面幅いっぱい */
+  box-sizing: border-box; /* paddingを含めた幅計算 */
+  z-index: 100;
+   }
+    
 
     .header-content {
       max-width: 1200px;
